@@ -53,20 +53,14 @@ export default function(options = {}) {
 
     async setItem(key, value, callback = noop) {
       try {
-        console.log('try it 1');
         await sensitiveInfo.setItem(key, value, options);
-        console.log('try it 2');
         callback(null);
       } catch (e) {
-        console.log('try it 3', e);
         if (/(exists|duplicate|existe)/i.test(String(e))) {
-          console.log('try it 4');
           await sensitiveInfo.deleteItem(key, options);
           await sensitiveInfo.setItem(key, value, options);
-          console.log('try it 5');
           callback(null);
         } else {
-          console.log('try it 6');
           callback(e);
           throw e;
         }
